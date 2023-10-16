@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bd68mdghxqkr3"]
+
+[ext_resource type="PackedScene" uid="uid://t8k4lm6wmv1b" path="res://player.tscn" id="1_vrdhg"]
+[ext_resource type="PackedScene" uid="uid://bbb1llq2bwov5" path="res://level.tscn" id="2_faiki"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_vrdhg")]
+position = Vector2(23, -32)
+floor_block_on_wall = true
+safe_margin = 0.001
+speed = 4000
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4.05, 4.05)
+
+[node name="Level" parent="." instance=ExtResource("2_faiki")]
+z_index = -1
