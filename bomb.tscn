@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://cndywqburcmp8"]
+
+[ext_resource type="Script" path="res://bomb.gd" id="1_6g3wi"]
+[ext_resource type="Texture2D" uid="uid://bem7dpjrg10tl" path="res://bombs.png" id="1_txxpy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxywi"]
+atlas = ExtResource("1_txxpy")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugl83"]
+atlas = ExtResource("1_txxpy")
+region = Rect2(17, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3r82n"]
+atlas = ExtResource("1_txxpy")
+region = Rect2(34, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gpxyx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxywi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugl83")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3r82n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugl83")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m26ql"]
+size = Vector2(16, 16)
+
+[node name="Bomb" type="RigidBody2D"]
+freeze = true
+script = ExtResource("1_6g3wi")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gpxyx")
+animation = &"idle"
+frame_progress = 0.146003
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_m26ql")

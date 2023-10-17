@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://t8k4lm6wmv1b"]
+[gd_scene load_steps=15 format=3 uid="uid://t8k4lm6wmv1b"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_r0o11"]
 [ext_resource type="Texture2D" uid="uid://ce882o773ojdr" path="res://sprites.png" id="2_0fgvd"]
+[ext_resource type="PackedScene" uid="uid://cndywqburcmp8" path="res://bomb.tscn" id="2_r3k28"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2mdw2"]
 atlas = ExtResource("2_0fgvd")
@@ -93,7 +94,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8br6b"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_48kqh"]
 size = Vector2(8, 8)
 
 [node name="Player" type="CharacterBody2D"]
@@ -101,9 +102,11 @@ floor_stop_on_slope = false
 floor_block_on_wall = false
 safe_margin = 3.0
 script = ExtResource("1_r0o11")
+bomb_scene = ExtResource("2_r3k28")
 speed = 40000
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-0.5, -9.5)
 sprite_frames = SubResource("SpriteFrames_pyta3")
 animation = &"walk_down"
 frame = 1
@@ -111,6 +114,7 @@ frame_progress = 0.802552
 offset = Vector2(0.5, 0.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 9)
+position = Vector2(0.5, 0.5)
 rotation = 0.785398
-shape = SubResource("RectangleShape2D_8br6b")
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_48kqh")

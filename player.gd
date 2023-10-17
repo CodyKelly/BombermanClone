@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@export var bomb_scene: PackedScene
 @export var speed = 400
 var animation
 
@@ -13,6 +14,12 @@ func get_input(delta):
 	if input_direction == Vector2.ZERO:
 		input_direction = Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
 	velocity = input_direction * speed * delta
+	
+func _input(event):
+	if event.is_action_pressed("place_bomb"):
+		var new_bomb = bomb_scene.instantiate()
+		new_bomb.position = position
+		get_parent().add_child(new_bomb)
 	
 func set_animation():
 	if velocity == Vector2.ZERO:
