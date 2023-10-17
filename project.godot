@@ -13,7 +13,12 @@ config_version=5
 config/name="Bomberman"
 run/main_scene="res://game.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
+boot_splash/use_filter=false
 config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/mode="viewport"
 
 [dotnet]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://t8k4lm6wmv1b"]
+[gd_scene load_steps=16 format=3 uid="uid://t8k4lm6wmv1b"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_r0o11"]
 [ext_resource type="Texture2D" uid="uid://ce882o773ojdr" path="res://sprites.png" id="2_0fgvd"]
@@ -97,6 +97,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_48kqh"]
 size = Vector2(11, 11)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b6jv2"]
+size = Vector2(8, 8)
+
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 15
 floor_stop_on_slope = false
@@ -108,9 +111,12 @@ speed = 4000
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -7)
 sprite_frames = SubResource("SpriteFrames_pyta3")
-animation = &"walk_up"
+animation = &"walk_down"
 offset = Vector2(0.5, 0.5)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="WallCollider" type="CollisionShape2D" parent="."]
 rotation = 0.785398
 shape = SubResource("RectangleShape2D_48kqh")
+
+[node name="ExplosionCollider" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_b6jv2")
