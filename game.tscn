@@ -5,15 +5,14 @@
 
 [node name="Game" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("1_vrdhg")]
-position = Vector2(71, 15)
-floor_block_on_wall = true
-safe_margin = 0.001
-speed = 4000
-
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 zoom = Vector2(3.7, 3.7)
 
 [node name="Level" parent="." instance=ExtResource("2_faiki")]
 z_index = -1
+y_sort_enabled = true
+
+[node name="Player" parent="Level" node_paths=PackedStringArray("tile_map") instance=ExtResource("1_vrdhg")]
+position = Vector2(72, 24)
+tile_map = NodePath("..")

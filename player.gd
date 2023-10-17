@@ -1,7 +1,9 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
+@export var tile_map: TileMap
 @export var bomb_scene: PackedScene
 @export var speed = 400
+var number = 1
 var animation
 
 # Called when the node enters the scene tree for the first time.
@@ -17,8 +19,13 @@ func get_input(delta):
 	
 func _input(event):
 	if event.is_action_pressed("place_bomb"):
-		var new_bomb = bomb_scene.instantiate()
-		new_bomb.position = position
+		var player_tile = tile_map.map_to_local(tile_map.local_to_map(position))
+		var new_bomb : Bomb = bomb_scene.instantiate()
+		new_bomb.position = player_tile
+		new_bomb.origin_player = self
+		new_bomb.set_collision_layer_value(number, false)
+		
+		new_bomb.set_collision_mask_value(number, false)
 		get_parent().add_child(new_bomb)
 	
 func set_animation():
