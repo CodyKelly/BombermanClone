@@ -118,5 +118,9 @@ offset = Vector2(0.5, 0.5)
 rotation = 0.785398
 shape = SubResource("RectangleShape2D_48kqh")
 
-[node name="ExplosionCollider" type="CollisionShape2D" parent="."]
+[node name="ExplosionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="ExplosionCollider" type="CollisionShape2D" parent="ExplosionArea"]
 shape = SubResource("RectangleShape2D_b6jv2")
