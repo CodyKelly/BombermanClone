@@ -2,6 +2,9 @@ class_name Level extends TileMap
 
 const FIRE_LAYER = 2
 const BLOCK_LAYER = 1
+
+@export var fire_life = 200.0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -11,12 +14,11 @@ func _ready():
 func _process(delta):
 	# subtract delta time from each tile's life remaining
 	var fire_cells = get_used_cells(FIRE_LAYER)
+	var time = Time.get_ticks_msec()
 	for cell in fire_cells:
 		var data = get_cell_tile_data(FIRE_LAYER, cell)
-		var life = data.get_custom_data("life") - delta
-		if life > 0:
-			data.set_custom_data("life", life)
-		else:
+		var life = time - data.get_custom_data("start")
+		if life > fire_life:
 			set_cell(FIRE_LAYER, cell) # erase cell
 			
 func process_cell(pos: Vector2i):
@@ -30,7 +32,7 @@ func process_cell(pos: Vector2i):
 		return 2
 
 func explode(pos: Vector2i, length: int):
-	var explosion_tiles: Array[Vector2i]
+	var explosion_tiles: Array[Vector2i] = []
 	explosion_tiles.append(pos)
 	for x in range(1, length):
 		var current_pos = Vector2i(pos.x - x, pos.y)
@@ -57,6 +59,7 @@ func explode(pos: Vector2i, length: int):
 		else: break
 	
 	set_cells_terrain_connect(FIRE_LAYER, explosion_tiles, 0, 0)
+	var time = Time.get_ticks_msec()
 	for cell in explosion_tiles:
 		var data = get_cell_tile_data(FIRE_LAYER, cell)
-		data.set_custom_data("life", 0.4)
+		data.set_custom_data("start", time)

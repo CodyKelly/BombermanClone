@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cndywqburcmp8"]
+[gd_scene load_steps=9 format=3 uid="uid://cndywqburcmp8"]
 
 [ext_resource type="Script" path="res://bomb.gd" id="1_6g3wi"]
 [ext_resource type="Texture2D" uid="uid://bem7dpjrg10tl" path="res://bombs.png" id="1_txxpy"]
@@ -38,9 +38,12 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m26ql"]
 size = Vector2(16, 16)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aue8t"]
+size = Vector2(16, 16)
+
 [node name="Bomb" type="RigidBody2D"]
 collision_layer = 0
-collision_mask = 15
+collision_mask = 256
 gravity_scale = 0.0
 max_contacts_reported = 10
 contact_monitor = true
@@ -58,10 +61,20 @@ frame_progress = 0.146003
 shape = SubResource("RectangleShape2D_m26ql")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 15
+collision_layer = 0
 collision_mask = 15
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_m26ql")
 
+[node name="Area2D2" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 256
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("RectangleShape2D_aue8t")
+
+[connection signal="body_entered" from="." to="." method="_on_explosion"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_body_exited"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_explosion"]
