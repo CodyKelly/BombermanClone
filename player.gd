@@ -57,3 +57,7 @@ func _physics_process(delta):
 	get_input(delta)
 	set_animation()
 	move_and_slide()
+
+
+func _on_explosion(body):
+	queue_free()
