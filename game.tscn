@@ -13,6 +13,6 @@ zoom = Vector2(3.7, 3.7)
 z_index = -1
 y_sort_enabled = true
 
-[node name="Player" parent="Level" node_paths=PackedStringArray("tile_map") instance=ExtResource("1_vrdhg")]
+[node name="Player" parent="Level" node_paths=PackedStringArray("level") instance=ExtResource("1_vrdhg")]
 position = Vector2(72, 24)
-tile_map = NodePath("..")
+level = NodePath("..")

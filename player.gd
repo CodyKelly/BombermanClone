@@ -1,6 +1,6 @@
 class_name Player extends CharacterBody2D
 
-@export var tile_map: TileMap
+@export var level: Level
 @export var bomb_scene: PackedScene
 @export var speed = 400
 var number = 1
@@ -19,10 +19,14 @@ func get_input(delta):
 	
 func _input(event):
 	if event.is_action_pressed("place_bomb"):
-		var player_tile = tile_map.map_to_local(tile_map.local_to_map(position))
+		var bomb_tile = level.local_to_map(position)
+		var player_tile = level.map_to_local(bomb_tile)
 		var new_bomb : Bomb = bomb_scene.instantiate()
 		new_bomb.position = player_tile
 		new_bomb.origin_player = self
+		new_bomb.level = level
+		new_bomb.coords = bomb_tile
+		new_bomb.strength = 3
 		new_bomb.set_collision_layer_value(number, false)
 		
 		new_bomb.set_collision_mask_value(number, false)
