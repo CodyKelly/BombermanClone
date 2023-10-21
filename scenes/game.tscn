@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bd68mdghxqkr3"]
+
+[ext_resource type="PackedScene" uid="uid://t8k4lm6wmv1b" path="res://scenes/player.tscn" id="1_vrdhg"]
+[ext_resource type="PackedScene" uid="uid://bbb1llq2bwov5" path="res://scenes/level.tscn" id="2_faiki"]
+[ext_resource type="AudioStream" uid="uid://cvrxbcdmop2kn" path="res://music/Battle Theme.mp3" id="3_la788"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+zoom = Vector2(3.7, 3.7)
+
+[node name="Level" parent="." instance=ExtResource("2_faiki")]
+z_index = -1
+y_sort_enabled = true
+
+[node name="Player" parent="Level" node_paths=PackedStringArray("level") instance=ExtResource("1_vrdhg")]
+position = Vector2(72, 24)
+level = NodePath("..")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_la788")
+autoplay = true

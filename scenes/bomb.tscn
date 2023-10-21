@@ -1,0 +1,86 @@
+[gd_scene load_steps=10 format=3 uid="uid://cndywqburcmp8"]
+
+[ext_resource type="Script" path="res://scripts/bomb.gd" id="1_wmk4j"]
+[ext_resource type="Texture2D" uid="uid://bem7dpjrg10tl" path="res://textures/bombs.png" id="2_wsjjj"]
+[ext_resource type="AudioStream" uid="uid://wty63n3urno0" path="res://sounds/Bomb Explodes.wav" id="3_b77pt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxywi"]
+atlas = ExtResource("2_wsjjj")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugl83"]
+atlas = ExtResource("2_wsjjj")
+region = Rect2(17, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3r82n"]
+atlas = ExtResource("2_wsjjj")
+region = Rect2(34, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gpxyx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxywi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugl83")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3r82n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugl83")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m26ql"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aue8t"]
+size = Vector2(16, 16)
+
+[node name="Bomb" type="RigidBody2D" node_paths=PackedStringArray("disable_on_explode")]
+collision_layer = 0
+collision_mask = 256
+gravity_scale = 0.0
+max_contacts_reported = 10
+contact_monitor = true
+can_sleep = false
+lock_rotation = true
+script = ExtResource("1_wmk4j")
+timer = 3000
+disable_on_explode = [NodePath("AnimatedSprite2D"), NodePath("CollisionShape2D"), NodePath("Area2D"), NodePath("Area2D2")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_b77pt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gpxyx")
+animation = &"idle"
+frame_progress = 0.146003
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_m26ql")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 15
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_m26ql")
+
+[node name="Area2D2" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 256
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("RectangleShape2D_aue8t")
+
+[connection signal="body_entered" from="." to="." method="_on_explosion"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_body_exited"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_explosion"]
