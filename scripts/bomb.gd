@@ -9,6 +9,8 @@ var coords: Vector2i
 var strength: int
 var done = false
 
+signal exploded
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	start_time = Time.get_ticks_msec()
@@ -23,6 +25,7 @@ func _process(delta):
 		
 func explode():
 	done = true
+	exploded.emit()
 	for node in disable_on_explode:
 		node.queue_free()
 	level.explode(coords, strength)

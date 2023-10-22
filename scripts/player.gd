@@ -1,36 +1,19 @@
-class_name Player extends CharacterBody2D
+extends CharacterBody2D
+
+class_name Player
 
 @export var level: Level
 @export var bomb_scene: PackedScene
 @export var speed = 400
+@export var max_bombs = 1
+var available_bombs = 0
 var number = 1
 var animation
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	animation = get_node("AnimatedSprite2D")
-	
-
-func get_input(delta):
-	var input_direction = Input.get_vector("dpad_left", "dpad_right", "dpad_up", "dpad_down")
-	if input_direction == Vector2.ZERO:
-		input_direction = Input.get_vector("walk_left", "walk_right", "walk_up", "walk_down")
-	velocity = input_direction * speed * delta
-	
-func _input(event):
-	if event.is_action_pressed("place_bomb"):
-		var bomb_tile = level.local_to_map(position)
-		var player_tile = level.map_to_local(bomb_tile)
-		var new_bomb : Bomb = bomb_scene.instantiate()
-		new_bomb.position = player_tile
-		new_bomb.origin_player = self
-		new_bomb.level = level
-		new_bomb.coords = bomb_tile
-		new_bomb.strength = 3
-		new_bomb.set_collision_layer_value(number, false)
-		
-		new_bomb.set_collision_mask_value(number, false)
-		get_parent().add_child(new_bomb)
+	available_bombs = max_bombs
 	
 func set_animation():
 	if velocity == Vector2.ZERO:
@@ -54,10 +37,34 @@ func set_animation():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	get_input(delta)
+	custom_physics_process(delta)
 	set_animation()
 	move_and_slide()
-
+	
+func custom_physics_process(delta):
+	pass
 
 func _on_explosion(body):
 	queue_free()
+	
+func _on_placed_bomb_explode():
+	if available_bombs < max_bombs: available_bombs += 1
+	
+func place_bomb():
+	if (available_bombs <= 0): return
+	
+	available_bombs -= 1
+	
+	var bomb_tile = level.local_to_map(position)
+	var player_tile = level.map_to_local(bomb_tile)
+	var new_bomb : Bomb = bomb_scene.instantiate()
+	
+	new_bomb.position = player_tile
+	new_bomb.origin_player = self
+	new_bomb.level = level
+	new_bomb.coords = bomb_tile
+	new_bomb.strength = 3
+	new_bomb.set_collision_layer_value(number, false)
+	new_bomb.exploded.connect(_on_placed_bomb_explode)
+	new_bomb.set_collision_mask_value(number, false)
+	get_parent().add_child(new_bomb)
