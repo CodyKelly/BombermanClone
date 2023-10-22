@@ -8,7 +8,7 @@ class_name Player
 @export var max_bombs = 1
 var available_bombs = 0
 var number = 1
-var animation
+var animation: AnimatedSprite2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
