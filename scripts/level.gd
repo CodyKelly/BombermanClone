@@ -5,6 +5,8 @@ const BLOCK_LAYER = 1
 
 @export var fire_life = 200.0
 
+@export var broken_brick_scene: PackedScene
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
@@ -27,6 +29,9 @@ func process_cell(pos: Vector2i):
 		return 0
 	if current_tile.get_custom_data("breakable"):
 		set_cell(BLOCK_LAYER, Vector2i(pos.x, pos.y)) # erase cell
+		var brick = broken_brick_scene.instantiate()
+		brick.position = map_to_local(pos)
+		add_child(brick)
 		return 1
 	else:
 		return 2
