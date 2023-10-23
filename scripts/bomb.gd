@@ -19,7 +19,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if not done and Time.get_ticks_msec() > start_time + timer:
 		explode()
 		
@@ -35,7 +35,7 @@ func _on_body_exited(body):
 	if body == origin_player:
 		set_collision_layer_value(origin_player.number, true)
 
-func _on_explosion(body):
+func _on_explosion(_body):
 	explode()
 
 

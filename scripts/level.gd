@@ -13,7 +13,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	# subtract delta time from each tile's life remaining
 	var fire_cells = get_used_cells(FIRE_LAYER)
 	var time = Time.get_ticks_msec()

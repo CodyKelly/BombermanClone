@@ -41,10 +41,10 @@ func _physics_process(delta):
 	set_animation()
 	move_and_slide()
 	
-func custom_physics_process(delta):
+func custom_physics_process(_delta):
 	pass
 
-func _on_explosion(body):
+func _on_explosion(_body):
 	queue_free()
 	
 func _on_placed_bomb_explode():
