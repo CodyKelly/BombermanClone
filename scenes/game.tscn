@@ -11,15 +11,13 @@ z_index = -1
 y_sort_enabled = true
 
 [node name="Camera2D" type="Camera2D" parent="Level"]
-position = Vector2(184, 120)
-zoom = Vector2(3.03, 3.03)
+position = Vector2(104, 88)
+zoom = Vector2(3, 3)
 
 [node name="Player" parent="Level" node_paths=PackedStringArray("level") instance=ExtResource("1_vrdhg")]
-position = Vector2(88, 40)
+position = Vector2(8, 8)
 slide_on_ceiling = false
 level = NodePath("..")
-speed = 2000
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_la788")
-autoplay = true

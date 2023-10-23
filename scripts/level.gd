@@ -2,6 +2,10 @@ class_name Level extends TileMap
 
 const FIRE_LAYER = 2
 const BLOCK_LAYER = 1
+const POST_TILE_COORD = Vector2i(3, 0)
+const BRICK_TILE_COORD = Vector2i(2, 0)
+const LEVEL_WIDTH = 12
+const LEVEL_HEIGHT = 10
 
 @export var fire_life = 200.0
 
@@ -9,8 +13,36 @@ const BLOCK_LAYER = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
-
+	generate_level()
+	
+func generate_level():
+	const brick_chance = .55
+	const half_width = LEVEL_WIDTH / 2 + 1
+	const half_height = LEVEL_HEIGHT / 2 + 1
+	const start_cavity_length = 3
+	var num_bricks = int(brick_chance * half_height * half_width)
+	var available_cells: Array[Vector2i] = []
+	var used_cells: Array[Vector2i] = []
+	
+	for y in range(0, half_height):
+		for x in range(0, half_width):
+			if (
+				not(x == 0 and y < start_cavity_length) and 
+				not(y == 0 and x < start_cavity_length) and
+				not((x + 1) % 2 == 0 and (y + 1) % 2 == 0)
+				):
+				print(str(x) + " " + str(y))
+				available_cells.append(Vector2i(x, y))
+	
+	while num_bricks > 0 and available_cells.size() > 0:
+		num_bricks -= 1
+		used_cells.append(available_cells.pop_at(randi_range(0, available_cells.size() - 1)))
+	
+	for cell in used_cells:
+		set_cell(BLOCK_LAYER, cell, 2, BRICK_TILE_COORD)
+		set_cell(BLOCK_LAYER, Vector2i(LEVEL_WIDTH - cell.x, cell.y), 2, BRICK_TILE_COORD)
+		set_cell(BLOCK_LAYER, Vector2i(cell.x, LEVEL_HEIGHT - cell.y), 2, BRICK_TILE_COORD)
+		set_cell(BLOCK_LAYER, Vector2i(LEVEL_WIDTH - cell.x, LEVEL_HEIGHT - cell.y), 2, BRICK_TILE_COORD)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -22,6 +54,11 @@ func _process(_delta):
 		var life = time - data.get_custom_data("start")
 		if life > fire_life:
 			set_cell(FIRE_LAYER, cell) # erase cell
+			
+func _unhandled_input(event):
+	if event is InputEventMouseButton and event.is_pressed():
+		print(local_to_map(to_local(get_global_mouse_position())))
+		print()
 			
 func process_cell(pos: Vector2i):
 	var current_tile = get_cell_tile_data(BLOCK_LAYER, pos)
